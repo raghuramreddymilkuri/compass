@@ -1,0 +1,72 @@
+Ansible Installation and configuration and configuration on amazon linux machine
+############################################################################################
+we are going to use official Ansible PPA repository on the system, just run the below commands to add the repository.
+
+step 1: for ubuntu and debian 
+##############################
+$ sudo apt-add-repository ppa:ansible/ansible -y
+$ sudo apt-get update && sudo apt-get install ansible -y
+
+for RHEL/CentOS/Fedora
+##############################
+#sudo yum install ansible -y
+
+verify ansible version using below command
+# ansible --version
+
+step 2: Make password less ssh connection between remote nodes
+###########################################################
+
+master server: #ssh-keygen
+
+copy public key into remote hosta machine using below command
+###############################################################
+ssh-copy-id -i username@<ip remote machine>:/root/.ssh/autorized_keys
+cat .ssh/id_rsa.pub | ssh username@<ip remote machine> 'cat >> .ssh/authorized_keys'
+
+Step 3 : Configure Ansible Hosts & Groups
+################################################################################
+Edit Ansible hosts configuration file.
+#sudo vi /etc/ansible/hosts
+
+Add your hosts and organize them with groups
+###############################################
+[webservers]
+web-host1 or <ip of host machine>
+web-host2 or <ip of host machine>
+
+[dbservers]
+db-host1 or <ip of host machine>
+
+
+
+After setting up Ansible server test all hosts connectivity using ping using below commnad:
+############################################################################################
+#ansible -m ping all
+ansible -m ping webservers
+
+
+use below command to check memory utilization on remote host machine.
+########################################################################################### 
+
+#ansible -m shell -a 'free -m' web-host1
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

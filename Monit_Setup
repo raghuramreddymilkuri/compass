@@ -1,0 +1,45 @@
+monit setup
+#####################################################################################################################################
+
+
+# set daemon mode timeout to 1 minute
+set daemon 60
+set logfile /var/log/monit.log
+set mailserver email-smtp.eu-west-1.amazonaws.com port 587 username "AKIAJCRJTQP3VDBVA6DQ" password "ApCXfWkb1gvcq5qEkufRt4h8kgEQMJ0yPoKKYq3ajJ50" using tlsv1 with timeout 30 seconds
+set alert support.limeyard@compassitesinc.com
+
+set mail-format {
+      from: support.limeyard@compassitesinc.com
+   subject: monit alert --  $EVENT $SERVICE
+   message: $EVENT Service $SERVICE
+                 Date:        $DATE
+                 Action:      $ACTION
+                 Host:        PRE_PROD_WEB
+                 Description: $DESCRIPTION
+
+            Your faithful,
+            Monit
+}
+
+# Include all files from /etc/monit.d/
+check system limeyard-preprod-web-server
+        if memory usage > 75% for 2 cycles then alert
+        if cpu usage (user) > 90% for 2 cycles then alert
+        if cpu usage (system) > 70% then alert
+#       if cpu usage (wait) > 20% then alert
+        if loadavg (1min) > 4 for 3 cycles then alert
+        if loadavg (5min) > 3 for 3 cycles then alert
+#       if swap usage > 5% then alert
+check filesystem rootfs with path /
+       if space usage > 70% then alert
+
+check process httpd with pidfile /var/run/httpd/httpd.pid
+    start program = "/etc/init.d/httpd start"
+    stop program = "/etc/init.d/httpd stop"
+    if failed host 127.0.0.1 port 80 then restart
+    if 5 restarts within 5 cycles then timeout
+
+# Include all files from /etc/monit.d/
+include /etc/monit.d/*
+########################################################################################################################################
+

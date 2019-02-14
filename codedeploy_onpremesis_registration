@@ -1,0 +1,29 @@
+aws deploy register-on-premises-instance --instance-name ce-950 --iam-user-arn arn:aws:iam::453126672860:user/sree
+
+aws deploy register-on-premises-instance --instance-name on-premises-Codedeploy --iam-user-arn arn:aws:iam::459060801604:user/raghuram
+
+aws deploy get-on-premises-instance --instance-name on-premises-Codedeploy
+
+aws deploy deregister-on-premises-instance --instance-name on-premises-Codedeploy --region ap-southeast-1
+
+aws deploy register --instance-name on-premises-Codedeploy --iam-user-arn arn:aws:iam::459060801604:user/raghuram --tags Key=Name,Value=on-premises-Codedeploy --region ap-southeast-1
+
+
+
+On-Premises Instance(Deployment Server):-
+
+1. Install the AWS CLI
+
+2. Next Instanll Codedeploy agent.(Based on Region)
+
+3. To register On-premises Instance to AWS Codedeploy, Please follow below steps:-
+
+Ex:-
+
+aws deploy register-on-premises-instance --instance-name AssetTag12010298EX --iam-user-arn arn:aws:iam::80398EXAMPLE:user/CodeDeployDemoUser-OnPrem
+
+
+aws deploy register-on-premises-instance --instance-name ce-950 --iam-user-arn arn:aws:iam::453126672860:user/sree
+
+==>
+aws deploy get-on-premises-instance --instance-name ce-950
